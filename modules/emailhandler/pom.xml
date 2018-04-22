@@ -12,5 +12,13 @@
 
     <artifactId>emailhandler</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 
 </project>
