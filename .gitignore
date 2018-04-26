@@ -16,3 +16,7 @@ target/
 
 #ignore node modules
 node_modules/
+/modules/emailhandler/nbproject/
+
+#ignore property files
+*.properties
