@@ -79,9 +79,9 @@ public class EmailServiceTest {
      * @throws java.lang.Exception
      */
     @Test
-    public void testSendEmail() throws Exception {
-        System.out.println("sendEmail with all correct parameters");
-        String to = "blimpit.test@yahoo.com";
+    public void testSendEmailWithGmail() throws Exception {
+        System.out.println("sendEmail with all correct parameters [Google]");
+        String to = YahooAddress;
         String subject = "Test email";
         String body = "Hi Test,\n\nThis is a test email\n\nThanks,\nTest.";
         EmailService instance = new EmailService(GmailAddress, GmailPassword);
@@ -96,8 +96,8 @@ public class EmailServiceTest {
      * @throws Exception
      */
     @Test(expected = MessagingException.class)
-    public void testSendEmailWithWrongAddress() throws Exception {
-        System.out.println("sendEmail with invalid email address");
+    public void testSendEmailGmailWithWrongAddress() throws Exception {
+        System.out.println("sendEmail with invalid email address [Google]");
         String to = "blimpit.test.com";
         String subject = "Test email";
         String body = "Hi Test,\n\nThis is a test email\n\nThanks,\nTest.";
@@ -105,6 +105,37 @@ public class EmailServiceTest {
         instance.sendEmail(to, subject, body);
     }
 
+    /**
+     * Test of sendEmail method, of class EmailService.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testSendEmailWithYahoo() throws Exception {
+        System.out.println("sendEmail with all correct parameters [Yahoo]");
+        String to = GmailAddress;
+        String subject = "Test email";
+        String body = "Hi Test,\n\nThis is a test email\n\nThanks,\nTest.";
+        EmailService instance = new EmailService(YahooAddress, YahooPassword);
+        boolean expResult = true;
+        boolean result = instance.sendEmail(to, subject, body);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of sendEmail method, of class EmailService.
+     * - Test case give a non existing email address as recipient
+     * @throws Exception
+     */
+    @Test(expected = MessagingException.class)
+    public void testSendEmailYahooWithWrongAddress() throws Exception {
+        System.out.println("sendEmail with invalid email address [Yahoo]");
+        String to = "blimpit.test.com";
+        String subject = "Test email";
+        String body = "Hi Test,\n\nThis is a test email\n\nThanks,\nTest.";
+        EmailService instance = new EmailService(YahooAddress, YahooPassword);
+        instance.sendEmail(to, subject, body);
+    }
+    
     /**
      * Test of sendEmailWithAttachment method, of class EmailService.
      */

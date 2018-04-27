@@ -154,10 +154,11 @@ public class EmailService implements EmailHandler {
 
     private void setDefaultYahooProperties() {
         props = new Properties();
-        props.put("mail.smtp.host", "smtp.mail.yahoo.com");
-        props.put("mail.debug", "false");
-        props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "587");
+        props.put("mail.host", "smtp.mail.yahoo.com");
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
     }
     
     /*
