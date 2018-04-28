@@ -1,7 +1,5 @@
 package org.blimpit.utils.emailhandler;
 
-import javax.mail.MessagingException;
-
 /**
  * A interface which describes email handling APIs
  */
@@ -13,9 +11,9 @@ public interface EmailHandler {
      * @param subject Subject of the email
      * @param body body of the email
      * @return send or not
-     * @throws javax.mail.MessagingException
+     * @throws org.blimpit.utils.emailhandler.EmailServiceException
      */
-    boolean sendEmail(String to, String subject, String body) throws MessagingException;
+    boolean sendEmail(String to, String subject, String body) throws EmailServiceException;
     
     /**
      * Send an email with attachment
@@ -25,9 +23,9 @@ public interface EmailHandler {
      * @param body        of the email
      * @param attachement attachment path
      * @return send or not
-     * @throws javax.mail.MessagingException
+     * @throws org.blimpit.utils.emailhandler.EmailServiceException
      */
-    boolean sendEmailWithAttachment(String to, String subject, String body, String attachement) throws MessagingException;
+    boolean sendEmailWithAttachment(String to, String subject, String body, String attachement) throws EmailServiceException;
 
 
 }

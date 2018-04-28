@@ -42,8 +42,10 @@ public class EmailService implements EmailHandler {
     }
     
     @Override
-    public boolean sendEmail(String to, String subject, String body) throws MessagingException {
-        Session session = Session.getDefaultInstance(props, 
+    public boolean sendEmail(String to, String subject, String body) throws EmailServiceException {
+        
+        try {
+            Session session = Session.getInstance(props, 
             new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -51,20 +53,26 @@ public class EmailService implements EmailHandler {
                 }
             });
         
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(sender));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(subject);
-        message.setText(body);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(body);
 
-        Transport.send(message);
+            Transport.send(message);
+            
+        } catch (MessagingException ex) {
+            throw new EmailServiceException(ex.getMessage());
+        }
 
         return true;
     }
     
     @Override
-    public boolean sendEmailWithAttachment(String to, String subject, String body, String attachement) throws MessagingException {
-        Session session = Session.getDefaultInstance(props, 
+    public boolean sendEmailWithAttachment(String to, String subject, String body, String attachement) throws EmailServiceException {
+        
+        try {
+            Session session = Session.getInstance(props, 
             new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -72,31 +80,34 @@ public class EmailService implements EmailHandler {
                 }
             });
         
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(sender));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-        message.setSubject(subject);
-        
-        // Create a multi part object to message
-        Multipart multiPart = new MimeMultipart();
-        
-        // Set message text
-        BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(body);
-        multiPart.addBodyPart(messageBodyPart);
-        
-        // Set message attachment
-        messageBodyPart = new MimeBodyPart();
-        DataSource source = new FileDataSource(attachement);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        File file = new File(attachement);
-        messageBodyPart.setFileName(file.getName());
-        multiPart.addBodyPart(messageBodyPart);
-        
-        // complete the message
-        message.setContent(multiPart);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(sender));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setSubject(subject);
 
-        Transport.send(message);
+            // Create a multi part object to message
+            Multipart multiPart = new MimeMultipart();
+
+            // Set message text
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(body);
+            multiPart.addBodyPart(messageBodyPart);
+
+            // Set message attachment
+            messageBodyPart = new MimeBodyPart();
+            DataSource source = new FileDataSource(attachement);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            File file = new File(attachement);
+            messageBodyPart.setFileName(file.getName());
+            multiPart.addBodyPart(messageBodyPart);
+
+            // complete the message
+            message.setContent(multiPart);
+
+            Transport.send(message);
+        } catch (MessagingException ex) {
+            throw new EmailServiceException(ex.getMessage());
+        }
 
         return true;
     }

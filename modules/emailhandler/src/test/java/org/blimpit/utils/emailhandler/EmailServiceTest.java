@@ -95,7 +95,7 @@ public class EmailServiceTest {
      * - Test case give a non existing email address as recipient
      * @throws Exception
      */
-    @Test(expected = MessagingException.class)
+    @Test(expected = EmailServiceException.class)
     public void testSendEmailGmailWithWrongAddress() throws Exception {
         System.out.println("sendEmail with invalid email address [Google]");
         String to = "blimpit.test.com";
@@ -126,7 +126,7 @@ public class EmailServiceTest {
      * - Test case give a non existing email address as recipient
      * @throws Exception
      */
-    @Test(expected = MessagingException.class)
+    @Test(expected = EmailServiceException.class)
     public void testSendEmailYahooWithWrongAddress() throws Exception {
         System.out.println("sendEmail with invalid email address [Yahoo]");
         String to = "blimpit.test.com";
